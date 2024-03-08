@@ -49,7 +49,7 @@ class SCRLCompressor(AbstractCompressor):
 if __name__ == '__main__':
     import time
 
-    compressor = SCRLCompressor(model_dir="../../models/newsroom-P75/", device="cuda", tokenizer_dir="/home/hdd/lijinyi/CompressionInAvalon/src/models/sentence-transformers/paraphrase-distilroberta-base-v2")
+    compressor = SCRLCompressor(model_dir="models/newsroom-P75/", device="cuda", tokenizer_dir="sentence-transformers/paraphrase-distilroberta-base-v2")
     # model_dir = "../../models/newsroom-P75/"
     # model_dir = "../../models/gigaword-L8/"
     # model_dir = "../../models/newsroom-L11/"
@@ -61,4 +61,4 @@ if __name__ == '__main__':
     result = compressor.compress(original_prompt=test_prompt)
     end = time.time()
     print(result)
-    print('程序运行时间为: %s Seconds' % (end - start))
+    print('Running time cost: %s Seconds' % (end - start))
