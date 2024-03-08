@@ -25,6 +25,16 @@ You should download the models manually. Most of the models can be automatically
 
 For **prompt compression** tasks, run `compressor.py`, you can modify the compression methods as well as the parameters for them. There is an example in `compressor.py`, it will be easy to modify.
 
+```python
+compressor = PromptCompressor(type='SCCompressor', device='cuda')
+
+test_prompt = "Janet\u2019s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?"
+
+ratio = 0.3
+result = compressor.compressgo(test_prompt, ratio)
+print(result)
+```
+
 For **methods evaluation** tasks, run `evaluation.py`, you can change the parameter the same as `compressor.py`, and easily change the dataset or add more datasets you want by following the format in `evaluation.py`.
 
 > Hint: Please do remember to fill in your Huggingface Tokens and API keys for OpenAI. (You can also change the urls if you are using other APIs for OpenAI)
