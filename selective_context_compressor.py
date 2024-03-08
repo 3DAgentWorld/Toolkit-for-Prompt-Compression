@@ -40,4 +40,4 @@ if __name__ == '__main__':
     result = compressor.compress(original_prompt=test_prompt, ratio=0.4, level='phrase')
     end = time.time()
     print(result)
-    print('程序运行时间为: %s Seconds' % (end - start))
+    print('Running time cost: %s Seconds' % (end - start))
