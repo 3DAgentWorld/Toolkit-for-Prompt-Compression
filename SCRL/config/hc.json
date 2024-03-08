@@ -1,0 +1,16 @@
+{
+    "batch_size": 4,
+    "rewards": {
+        "Fluency": {
+            "weight": 1,
+            "type": "masked",
+            "model_id": "distilroberta-base",
+            "max_score": 40.0,
+            "norm": "max"
+        },
+        "BiEncoderSimilarity": {
+            "weight": 1,
+            "model_id": "all-distilroberta-v1"
+        }
+    }
+}
