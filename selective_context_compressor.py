@@ -32,10 +32,11 @@ if __name__ == '__main__':
     import time
 
     compressor = SCCompressor(lang='en', model='gpt2', device='cuda')
-    test_prompt = "You belong to good side. In reveal phase, You can know which two players are Morgana and Assassin but you can't know which one is Morgana or Assassin specifically, you should reason it by yourself as the game progresses."
+    test_prompt = "Janet\u2019s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?"
 
     # level can be ['sent', 'phrase', 'token']; model can be ['gpt2', 'curie'], lang can only be 'en'
     # if model is 'curie', an OPENAI-API-Key must be given in selective_context.py
+    
     start = time.time()
     result = compressor.compress(original_prompt=test_prompt, ratio=0.4, level='phrase')
     end = time.time()
