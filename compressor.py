@@ -5,9 +5,6 @@ from llmlingua_compressor_pro import LLMLinguaCompressor
 from typing import List
 
 from transformers import AutoTokenizer
-# import sys
-# sys.path.append('../AutoCompressors')
-from AutoCompressors.auto_compressor import LlamaAutoCompressorModel, AutoCompressorModel
 import torch
 
 class PromptCompressor:
