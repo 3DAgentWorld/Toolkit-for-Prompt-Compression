@@ -2,6 +2,8 @@
 
 ## GSM8K
 
+Check the original repository <a href='https://github.com/openai/grade-school-math'>here</a>.
+
 ```
 @article{cobbe2021gsm8k,
   title={Training Verifiers to Solve Math Word Problems},
@@ -12,6 +14,8 @@
 ```
 
 ## Arxiv, bbc & sharegpt
+
+Check the original repository <a href='https://github.com/liyucheng09/selective_context#dataset-in-the-paper'>here</a>.
 
 ```
 @misc{li2023compressing,
