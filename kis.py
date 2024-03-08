@@ -49,7 +49,7 @@ if __name__ == '__main__':
     import time
 
     compressor = KiSCompressor(DEVICE='cuda', model_dir="philippelaban/keep_it_simple")
-    test_prompt = "You belong to good side. In reveal phase, You can know which two players are Morgana and Assassin but you can't know which one is Morgana or Assassin specifically, you should reason it by yourself as the game progresses."
+    test_prompt = "Janet\u2019s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?"
     start = time.time()
     result = compressor.compress(original_prompt=test_prompt)
     end = time.time()
