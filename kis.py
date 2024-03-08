@@ -48,10 +48,10 @@ class KiSCompressor(AbstractCompressor):
 if __name__ == '__main__':
     import time
 
-    compressor = KiSCompressor(DEVICE='cuda', model_dir="/home/hdd/lijinyi/CompressionInAvalon/src/models/philippelaban/keep_it_simple")
+    compressor = KiSCompressor(DEVICE='cuda', model_dir="philippelaban/keep_it_simple")
     test_prompt = "You belong to good side. In reveal phase, You can know which two players are Morgana and Assassin but you can't know which one is Morgana or Assassin specifically, you should reason it by yourself as the game progresses."
     start = time.time()
     result = compressor.compress(original_prompt=test_prompt)
     end = time.time()
     print(result)
-    print('程序运行时间为: %s Seconds' % (end - start))
+    print('Running time cost: %s Seconds' % (end - start))
