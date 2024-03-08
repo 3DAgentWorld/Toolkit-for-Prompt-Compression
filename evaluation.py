@@ -20,8 +20,8 @@ from openai import OpenAI
 import warnings
 
 
-apikeys = ["sk-FyPQ0uwONAZnfD5I17C3A8C03cA04f64900887B0Ef9c0022",
-           "sk-TaqaErBXOEaQTMMU2eF67a2d37B2425089DaCf308aEd15B4"]
+apikeys = ["Your API Keys",
+           "Your API Keys"]
 
 
 reconstruction_demos = [
@@ -84,18 +84,15 @@ reconstruction_demos = [
 ]
 
 
-# 初始化 GPT2 tokenizer
+# Initialize GPT2 tokenizer
 tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
 
 
 def extract_tokens(text, max_tokens=1024):
-    # 使用 tokenizer 将文本转换为 tokens
     tokens = tokenizer.encode(text, add_special_tokens=False)
 
-    # 截取前 max_tokens 个 token
     tokens = tokens[:max_tokens]
 
-    # 将 token 转换回文本
     extracted_text = tokenizer.decode(tokens, skip_special_tokens=True)
 
     return extracted_text
@@ -164,7 +161,7 @@ def restore_text(compressed_text):
     )
     restored_text = chat_gpt(messages)
     # print(restored_text)
-    # 从GPT回答中提取有效部分
+    # Extract text from response
     extracted_text = ""
     if "Answer:" in restored_text:
         answer_index = restored_text.index("Answer:")
@@ -177,34 +174,28 @@ def restore_text(compressed_text):
 
 def load_data(dataset_name: str):
     if dataset_name == "arxiv":
-        dataset = load_dataset("parquet", data_files={'test': '/home/hdd/lijinyi/CompressionInAvalon/promptcompressor/dataset/arxiv/train-00000-of-00001-b334c773bce22cb2.parquet'})
+        dataset = load_dataset("parquet", data_files={'test': 'dataset/arxiv/train-00000-of-00001-b334c773bce22cb2.parquet'})
         return dataset
     elif dataset_name == "sharegpt":
-        dataset = load_dataset("parquet", data_files={'test': '/home/hdd/lijinyi/CompressionInAvalon/promptcompressor/dataset/sharegpt/train-00000-of-00001-18e3e661ded310e9.parquet'})
+        dataset = load_dataset("parquet", data_files={'test': 'dataset/sharegpt/train-00000-of-00001-18e3e661ded310e9.parquet'})
         return dataset
     elif dataset_name == "bbc":
-        dataset = load_dataset("json", data_files={'test': '/home/hdd/lijinyi/CompressionInAvalon/promptcompressor/dataset/bbc/articles.json'})
+        dataset = load_dataset("json", data_files={'test': 'dataset/bbc/articles.json'})
         return dataset
     elif dataset_name == "GSM":
-        dataset = load_dataset("json", data_files={'test':'/home/hdd/lijinyi/CompressionInAvalon/promptcompressor/dataset/GSM8K/grade_school_math/data/test.jsonl'})
+        dataset = load_dataset("json", data_files={'test':'dataset/GSM8K/grade_school_math/data/test.jsonl'})
         return dataset
     else:
         print("Unknown dataset")
 
 
-# print(load_data("GSM"))
-# for context in load_data("arxiv")["test"]["text"]:
-#     print(context)
-#     break
-
-
 def main():
 
     compressor = PromptCompressor(type='SCCompressor', lang='en', model='gpt2', device='cuda')
-    # compressor = PromptCompressor(type='LLMLinguaCompressor', device='cuda', model_dir="/home/hdd/lijinyi/CompressionInAvalon/src/models/meta-llama/Llama-2-7b-chat-hf", token="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")
-    # compressor = PromptCompressor(type='LongLLMLinguaCompressor', device='cuda', model_dir="/home/hdd/lijinyi/CompressionInAvalon/src/models/meta-llama/Llama-2-7b-chat-hf", token="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")
-    # compressor = PromptCompressor(type='SCRLCompressor', model_dir="../src/models/newsroom-P75/", device="cuda", tokenizer_dir="/home/hdd/lijinyi/CompressionInAvalon/src/models/sentence-transformers/paraphrase-distilroberta-base-v2")
-    # compressor = PromptCompressor(type='KiSCompressor', device="cuda", model_dir="/home/hdd/lijinyi/CompressionInAvalon/src/models/philippelaban/keep_it_simple")
+    # compressor = PromptCompressor(type='LLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your Token")
+    # compressor = PromptCompressor(type='LongLLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your Token")
+    # compressor = PromptCompressor(type='SCRLCompressor', model_dir="models/newsroom-P75/", device="cuda", tokenizer_dir="sentence-transformers/paraphrase-distilroberta-base-v2")
+    # compressor = PromptCompressor(type='KiSCompressor', device="cuda", model_dir="philippelaban/keep_it_simple")
 
     dataset_name = 'sharegpt'
     data = load_data(dataset_name)
@@ -247,14 +238,14 @@ def main():
 
         reconstructed.append(result)
 
-        # 计算BLEU分数
+        # BLEU
         bleu_score = sentence_bleu([original_prompt.split()], result.split())
         BLEU += bleu_score
 
         if i % 100 == 0:
             print(i/10, "%")
 
-    # 计算ROUGE
+    # ROUGE
     rouge = Rouge()
     total_scores = {"rouge-1": {"f": 0, "p": 0, "r": 0}, "rouge-2": {"f": 0, "p": 0, "r": 0},
                     "rouge-l": {"f": 0, "p": 0, "r": 0}}
@@ -281,7 +272,7 @@ def main():
         print("No valid sentences for calculating ROUGE scores.")
 
     global missing
-    # 计算Bertscore
+    # Bertscore
     P, R, F1 = score(original, reconstructed, lang='en', verbose=False)
     BERT_P = torch.sum(P) / (max_num - missing)
     BERT_R = torch.sum(R) / (max_num - missing)
