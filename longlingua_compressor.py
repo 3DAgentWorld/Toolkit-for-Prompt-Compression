@@ -18,7 +18,7 @@ encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 class LongLLMLinguaCompressor(AbstractCompressor):
     def __init__(
         self,
-        model_name: str = "/home/hdd/lijinyi/CompressionInAvalon/src/models/meta-llama/Llama-2-7b-chat-hf",
+        model_name: str = "meta-llama/Llama-2-7b-chat-hf",
         device_map: str = "cuda",
         use_auth_token: bool = False,
         open_api_config: dict = {},
@@ -1163,4 +1163,4 @@ if __name__ == '__main__':
 
     end = time.time()
     print(result)
-    print('程序运行时间为: %s Seconds' % (end - start))
+    print('Running time cost: %s Seconds' % (end - start))
