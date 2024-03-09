@@ -20,10 +20,12 @@ from openai import OpenAI
 import warnings
 
 
+# Fill in your API keys here
 apikeys = ["Your API Keys",
            "Your API Keys"]
 
 
+# Modify your message demos for GPT
 reconstruction_demos = [
     {
         "role": "user",
@@ -189,15 +191,8 @@ def load_data(dataset_name: str):
         print("Unknown dataset")
 
 
-def main():
+def run(compressor: PromptCompressor, dataset_name: str, metrics: List):
 
-    compressor = PromptCompressor(type='SCCompressor', lang='en', model='gpt2', device='cuda')
-    # compressor = PromptCompressor(type='LLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your Token")
-    # compressor = PromptCompressor(type='LongLLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your Token")
-    # compressor = PromptCompressor(type='SCRLCompressor', model_dir="models/newsroom-P75/", device="cuda", tokenizer_dir="sentence-transformers/paraphrase-distilroberta-base-v2")
-    # compressor = PromptCompressor(type='KiSCompressor', device="cuda", model_dir="philippelaban/keep_it_simple")
-
-    dataset_name = 'sharegpt'
     data = load_data(dataset_name)
     print(data)
 
@@ -216,11 +211,13 @@ def main():
             original.append(original_prompt)
         elif dataset_name == "arxiv":
             original_prompt = data['test'][i]["text"]
+            original_prompt = extract_tokens(original_prompt, max_tokens=1022)
+            # print(original_prompt)
             original.append(original_prompt)
         elif dataset_name == "sharegpt":
             for x in data['test'][i]["chat"]:
                 original_prompt += x[1]
-            original_prompt = extract_tokens(original_prompt, max_tokens=1024)
+            original_prompt = extract_tokens(original_prompt, max_tokens=510)
             original.append(original_prompt)
         elif dataset_name == "GSM":
             qn = data['test'][i]["question"]
@@ -232,59 +229,75 @@ def main():
             original_prompt = qn + extracted_text
             original.append(original_prompt)
 
-        compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=0.5, max_length=1024)
+        compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=0.75, max_length=1024)
 
         result = restore_text(compressed_prompt["compressed_prompt"])
 
         reconstructed.append(result)
 
         # BLEU
-        bleu_score = sentence_bleu([original_prompt.split()], result.split())
-        BLEU += bleu_score
+        if "BLEU" in metrics:
+            bleu_score = sentence_bleu([original_prompt.split()], result.split())
+            BLEU += bleu_score
 
         if i % 100 == 0:
             print(i/10, "%")
 
     # ROUGE
-    rouge = Rouge()
-    total_scores = {"rouge-1": {"f": 0, "p": 0, "r": 0}, "rouge-2": {"f": 0, "p": 0, "r": 0},
+    if "ROUGE" in metrics:
+        rouge = Rouge()
+        total_scores = {"rouge-1": {"f": 0, "p": 0, "r": 0}, "rouge-2": {"f": 0, "p": 0, "r": 0},
                     "rouge-l": {"f": 0, "p": 0, "r": 0}}
-    num_sentences = 0
+        num_sentences = 0
 
-    for i in range(len(original)):
-        if len(original[i]) > 0 and len(reconstructed[i]) > 0:
-            rouge_score = rouge.get_scores([original[i]], [reconstructed[i]])[0]
-            for metric in total_scores.keys():
-                for score_type in ["f", "p", "r"]:
-                    total_scores[metric][score_type] += rouge_score[metric][score_type]
-            num_sentences += 1
+        for i in range(len(original)):
+            if len(original[i]) > 0 and len(reconstructed[i]) > 0:
+                rouge_score = rouge.get_scores([original[i]], [reconstructed[i]])[0]
+                for metric in total_scores.keys():
+                    for score_type in ["f", "p", "r"]:
+                        total_scores[metric][score_type] += rouge_score[metric][score_type]
+                num_sentences += 1
 
-    if num_sentences > 0:
-        average_scores = {
-            metric: {score_type: total_scores[metric][score_type] / num_sentences for score_type in ["f", "p", "r"]} for
-            metric in total_scores.keys()}
+        if num_sentences > 0:
+            average_scores = {
+                metric: {score_type: total_scores[metric][score_type] / num_sentences for score_type in ["f", "p", "r"]} for
+                metric in total_scores.keys()}
 
-        print("Average Rouge Scores:")
-        print("ROUGE_1: ", average_scores["rouge-1"])
-        print("ROUGE_2", average_scores["rouge-2"])
-        print("ROUGE_L", average_scores["rouge-l"])
-    else:
-        print("No valid sentences for calculating ROUGE scores.")
+            print("Average Rouge Scores:")
+            print("ROUGE_1: ", average_scores["rouge-1"])
+            print("ROUGE_2", average_scores["rouge-2"])
+            print("ROUGE_L", average_scores["rouge-l"])
+        else:
+            print("No valid sentences for calculating ROUGE scores.")
 
-    global missing
     # Bertscore
-    P, R, F1 = score(original, reconstructed, lang='en', verbose=False)
-    BERT_P = torch.sum(P) / (max_num - missing)
-    BERT_R = torch.sum(R) / (max_num - missing)
-    BERT_F1 = torch.sum(F1) / (max_num - missing)
+    if "Bertscore" in metrics:
+        P, R, F1 = score(original, reconstructed, lang='en', verbose=False)
+        BERT_P = torch.sum(P) / (max_num - missing)
+        BERT_R = torch.sum(R) / (max_num - missing)
+        BERT_F1 = torch.sum(F1) / (max_num - missing)
+        print("BERT_P: ", BERT_P)
+        print("BERT_R: ", BERT_R)
+        print("BERT-F1: ", BERT_F1)
 
-    print("BLEU: ", BLEU/(max_num - missing))
-    print("BERT_P: ", BERT_P)
-    print("BERT_R: ", BERT_R)
-    print("BERT-F1: ", BERT_F1)
+    if "BLEU" in metrics:
+        print("BLEU: ", BLEU/(max_num - missing))
 
+    # How many answers are missing
+    global missing
     print("missing: ", missing)
 
 
 if __name__ == "__main__":
-    main()
+    compressor = PromptCompressor(type='SCCompressor', lang='en', model='gpt2', device='cuda')
+    # compressor = PromptCompressor(type='LLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your HF token")
+    # compressor = PromptCompressor(type='LongLLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your HF token")
+    # compressor = PromptCompressor(type='SCRLCompressor', model_dir="models/newsroom-P75/", device="cuda", tokenizer_dir="sentence-transformers/paraphrase-distilroberta-base-v2")
+    # compressor = PromptCompressor(type='KiSCompressor', device="cuda", model_dir="philippelaban/keep_it_simple")
+
+    dataset_name = 'arxiv'
+
+    metrics = ["BLEU", "ROUGE", "Bertscore"]
+
+    run(compressor=compressor, dataset_name=dataset_name, metrics=metrics)
+
