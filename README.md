@@ -32,7 +32,7 @@ PCToolkit contains:
 - 5+ metrics
 
 <div align=center>
-<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/architecture.png" width="1478" height="761">
+<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/architecture.png" width="739" height="380.5">
 </div>
 
 ## Methods supporting
