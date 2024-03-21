@@ -26,13 +26,17 @@ You should download the models manually. Most of the models can be automatically
 For **prompt compression** tasks, run `compressor.py`, you can modify the compression methods as well as the parameters for them. There is an example in `compressor.py`, it will be easy to modify.
 
 ```python
+from pctoolkit.runners import run
+from pctoolkit.datasets import load_dataset
+from pctoolkit.metrics import load_metrics
+from pctoolkit.compressors import PromptCompressor
+
 compressor = PromptCompressor(type='SCCompressor', device='cuda')
+dataset_name = 'arxiv'
+dataset = load_dataset(dataset_name)
 
-test_prompt = "Janet\u2019s ducks lay 16 eggs per day. She eats three for breakfast every morning and bakes muffins for her friends every day with four. She sells the remainder at the farmers' market daily for $2 per fresh duck egg. How much in dollars does she make every day at the farmers' market?"
+run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 
-ratio = 0.3
-result = compressor.compressgo(test_prompt, ratio)
-print(result)
 ```
 
 For **methods evaluation** tasks, run `evaluation.py`, you can change the parameter the same as `compressor.py`, and easily change the dataset or add more datasets you want by following the format in `evaluation.py`.
