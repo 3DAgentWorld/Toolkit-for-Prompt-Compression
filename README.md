@@ -13,7 +13,7 @@
 ## Contents
 - [Introduction](#introduction)
   	- [Key Features of PCToolkit](#key-features-of-pctoolkit)
-- [Methods supporting](#methods-supporting)
+  	- [Outlines](#outlines)
 - [How to start](#how-to-start)
 	- [Downloading models](#downloading-models)
 - [How to use](#how-to-use)
@@ -38,11 +38,15 @@ PCToolkit contains:
 
 ### Key Features of PCToolkit
 
-(i) **State-of-the-art and reproducible methods.** Encompassing a wide array of mainstream compression techniques, PCToolkit offers a unified interface for various compression methods (compressors). Notably, PCToolkit incorporates a total of five distinct compressors, namely Selective Context, LLMLingua, LongLLMLingua, SCRL and KiS.
+(i) **State-of-the-art and reproducible methods.** Encompassing a wide array of mainstream compression techniques, PCToolkit offers a unified interface for various compression methods (compressors). Notably, PCToolkit incorporates a total of five distinct compressors, namely <a href='https://arxiv.org/abs/2310.06201'>Selective Context</a>, <a href='https://arxiv.org/abs/2310.05736'>LLMLingua</a>, <a href='https://arxiv.org/abs/2310.06839'>LongLLMLingua</a>, <a href='https://arxiv.org/abs/2205.08221'>SCRL</a> and <a href='https://arxiv.org/abs/2107.03444'>Keep it Simple</a>.
 
 (ii) **User-friendly interfaces for new compressors, datasets, and metrics.** Facilitating portability and ease of adaptation to different environments, the interfaces within PCToolkit are designed to be easily customizable. This flexibility makes PCToolkit suitable for a wide range of environments and tasks.
 
 (iii) **Modular design.** Featuring a modular structure that simplifies the transition between different methods, datasets, and metrics, PCToolkit is organized into four distinct modules: Compressor, Dataset, Metric and Runner module.
+
+### Outlines
+
+The following table presents an overview of the supported tasks, compressors, and datasets within PCToolkit. Each component are described in detail in our technical report.
 
 | Tasks                 | Supported Compressors                            | Supported Datasets                                   |
 |-----------------------|--------------------------------------------------|------------------------------------------------------|
@@ -59,10 +63,6 @@ PCToolkit contains:
 | Synthetic tasks       | LLMLingua, LongLLMLingua                         | LongBench                                           |
 | Code completion       | LLMLingua, LongLLMLingua                         | LongBench                                           |
 
-
-## Methods supporting
-
-Currently, PCToolkit includes <a href='https://arxiv.org/abs/2310.06201'>Selective Context</a>, <a href='https://arxiv.org/abs/2310.05736'>LLMLingua</a>, <a href='https://arxiv.org/abs/2310.06839'>LongLLMLingua</a>, <a href='https://arxiv.org/abs/2205.08221'>SCRL</a> and <a href='https://arxiv.org/abs/2107.03444'>Keep it Simple</a>.
 
 ## How to start
 
