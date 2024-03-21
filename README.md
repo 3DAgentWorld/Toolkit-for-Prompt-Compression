@@ -22,7 +22,7 @@
 - [Reference](#reference)
 - [Citation](#citation)
 
-## Techical Report
+## 📄Techical Report
 
 You can find more details about PCToolkit in our <a href=''>technical report</a>.
 
