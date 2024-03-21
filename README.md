@@ -5,6 +5,7 @@
 - [How to start](#how-to-start)
 	- [Downloading models](#downloading-models)
 - [How to use](#how-to-use)
+- [Relevant Repositories](#relevant-repositories)
 - [Reference](#reference)
 
 ## Methods supporting
