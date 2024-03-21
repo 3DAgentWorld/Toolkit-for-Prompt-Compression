@@ -63,3 +63,15 @@ class PromptCompressor:
             return self.compressor.compress(original_prompt=original_prompt, ratio=ratio)
 
 
+if __name__ == '__main__':
+    # compressor = PromptCompressor(type='SCCompressor', lang='en', model='gpt2', device='cuda')
+    compressor = PromptCompressor(type='LongLLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your Tokens here")
+    # compressor = PromptCompressor(type='SCRLCompressor', model_dir="pretrained_models/gigaword-L8/", device="cuda", tokenizer_dir="sentence-transformers/paraphrase-distilroberta-base-v2")
+    # compressor = PromptCompressor(type='KiSCompressor', device="cuda",
+    #                               model_dir="philippelaban/keep_it_simple")
+    # compressor = PromptCompressor(type='LLMLinguaCompressor', device='cuda', model_dir="meta-llama/Llama-2-7b-chat-hf", token="Your Tokens here")
+
+    test_prompt = ""
+    ratio = 0.3
+    result = compressor.compressgo(test_prompt, ratio, max_length=1024)
+    print(result)
