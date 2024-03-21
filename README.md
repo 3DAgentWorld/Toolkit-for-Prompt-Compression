@@ -1,5 +1,5 @@
 <div align=center>
-<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo_trans.png" width="800" height="200">
+<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo_trans.png" width="600" height="150">
 	
 ---
 
