@@ -1,19 +1,16 @@
-# PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
-
 <div align=center>
-<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo_trans.png" width="400" height="105">
+<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo_trans.png" width="800" height="200">
 	
 ---
 
 [![GitHub license](https://img.shields.io/github/license/3DAgentWorld/Toolkit-for-Prompt-Compression?color=blue)](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/3DAgentWorld/Toolkit-for-Prompt-Compression)](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression)
 
-
-
-
 </div>
 
-# Contents
+# PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
+
+## Contents
 - [Methods supporting](#methods-supporting)
 - [How to start](#how-to-start)
 	- [Downloading models](#downloading-models)
