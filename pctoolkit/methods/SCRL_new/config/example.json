@@ -1,0 +1,30 @@
+{
+    "loader": "loaders/gigaword.py",
+    "dataset": "data/train-data/gigaword",
+    "indices": "data/train-data/gigaword/indices.npy",
+    "model_dir": "data/models/example",
+    "verbose": true,
+    "print_every": 1,
+    "eval_every": 10,
+    "save_every": 10,
+    "max_val_steps": 8,
+    "max_train_seconds": null,
+    "max_train_steps": 1000,
+    "batch_size": 1,
+    "learning_rate": 1e-05,
+    "k_samples": 10,
+    "sample_aggregation": "max",
+    "loss": "pgb",
+    "encoder_model_id": "distilroberta-base",
+    "rewards": {
+        "BiEncoderSimilarity": {
+            "weight": 1,
+            "model_id": "all-distilroberta-v1"
+        },
+        "GaussianCR": {
+            "weight": 1,
+            "mean": 0.5,
+            "std": 0.2
+        }
+    }
+}
