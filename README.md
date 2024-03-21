@@ -1,7 +1,7 @@
 # PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
 
 <div align=center>
-<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo.png" width="400" height="105">
+<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo_trans.png" width="400" height="105">
 	
 ---
 
