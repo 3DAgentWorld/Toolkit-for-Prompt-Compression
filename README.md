@@ -55,11 +55,11 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 
 ## Relevant Repositories
 
-- <a href='https://github.com/liyucheng09/selective_context'>Selective Context</a>![Github stars](https://img.shields.io/github/stars/liyucheng09/selective_context.svg)
-- <a href='https://github.com/microsoft/LLMLingua'>LLMLingua</a></a>![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
-- <a href='https://github.com/microsoft/LLMLingua'>LongLLMLingua</a>![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
-- <a href='https://github.com/complementizer/rl-sentence-compression'>SCRL</a>![Github stars](https://img.shields.io/github/stars/complementizer/rl-sentence-compression.svg)
-- <a href='https://github.com/tingofurro/keep_it_simple'>KiS</a>![Github stars](https://img.shields.io/github/stars/tingofurro/keep_it_simple.svg)
+- <a href='https://github.com/liyucheng09/selective_context'>Selective Context</a> ![Github stars](https://img.shields.io/github/stars/liyucheng09/selective_context.svg)
+- <a href='https://github.com/microsoft/LLMLingua'>LLMLingua</a></a> ![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
+- <a href='https://github.com/microsoft/LLMLingua'>LongLLMLingua</a> ![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
+- <a href='https://github.com/complementizer/rl-sentence-compression'>SCRL</a> ![Github stars](https://img.shields.io/github/stars/complementizer/rl-sentence-compression.svg)
+- <a href='https://github.com/tingofurro/keep_it_simple'>KiS</a> ![Github stars](https://img.shields.io/github/stars/tingofurro/keep_it_simple.svg)
 
 ## Reference
 
