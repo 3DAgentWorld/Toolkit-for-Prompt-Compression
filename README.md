@@ -44,6 +44,22 @@ PCToolkit contains:
 
 (iii) **Modular design.** Featuring a modular structure that simplifies the transition between different methods, datasets, and metrics, PCToolkit is organized into four distinct modules: Compressor, Dataset, Metric and Runner module.
 
+| Tasks                 | Supported Compressors                            | Supported Datasets                                   |
+|-----------------------|--------------------------------------------------|------------------------------------------------------|
+| Reconstruction        | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | BBC, ShareGPT, Arxiv, GSM8K                         |
+| Mathematical problems | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | GSM8K, BBH                                          |
+| Boolean expressions   | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | BBH                                                 |
+| Multiple choice       | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | BBH                                                 |
+| Lies recognition      | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | BBH                                                 |
+| Summarization         | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | BBC, Arxiv, Gigaword, DUC2004, BNC, Broadcast, Google |
+|                       | LLMLingua, LongLLMLingua                         | LongBench                                           |
+| Question and Answer   | SC, LLMLingua, LongLLMLingua, SCRL, KiS          | BBH                                                 |
+|                       | LLMLingua, LongLLMLingua                         | LongBench                                           |
+| Few-shot learning     | LLMLingua, LongLLMLingua                         | LongBench                                           |
+| Synthetic tasks       | LLMLingua, LongLLMLingua                         | LongBench                                           |
+| Code completion       | LLMLingua, LongLLMLingua                         | LongBench                                           |
+
+
 ## Methods supporting
 
 Currently, PCToolkit includes <a href='https://arxiv.org/abs/2310.06201'>Selective Context</a>, <a href='https://arxiv.org/abs/2310.05736'>LLMLingua</a>, <a href='https://arxiv.org/abs/2310.06839'>LongLLMLingua</a>, <a href='https://arxiv.org/abs/2205.08221'>SCRL</a> and <a href='https://arxiv.org/abs/2107.03444'>Keep it Simple</a>.
