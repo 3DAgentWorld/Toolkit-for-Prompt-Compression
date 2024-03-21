@@ -31,7 +31,9 @@ PCToolkit contains:
 - 11 datasets
 - 5+ metrics
 
-![PCToolkit architecture](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/PCToolkit_architecture5.pdf)
+<div align=center>
+<img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/architecture.png" width="1478" height="761">
+</div>
 
 ## Methods supporting
 
