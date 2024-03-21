@@ -12,7 +12,7 @@ from openai import OpenAI
 import warnings
 
 
-apikeys = ["sk-FyPQ0uwONAZnfD5I17C3A8C03cA04f64900887B0Ef9c0022",
+apikeys = ["Your API keys here",
            "Your API keys here"]
 missing = 0
 # Edit your GPT demos here
