@@ -12,12 +12,12 @@
 
 ## Contents
 - [Introduction](#introduction)
+	- [Relevant Repositories](#relevant-repositories)
   	- [Key Features of PCToolkit](#key-features-of-pctoolkit)
   	- [Outlines](#outlines)
 - [How to start](#how-to-start)
 	- [Downloading models](#downloading-models)
 - [How to use](#how-to-use)
-- [Relevant Repositories](#relevant-repositories)
 - [Reference](#reference)
 
 ## Introduction
@@ -35,6 +35,15 @@ PCToolkit contains:
 <div align=center>
 <img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/architecture.png" width="739" height="380.5">
 </div>
+
+### Relevant Repositories
+
+- <a href='https://github.com/liyucheng09/selective_context'>Selective Context</a> ![Github stars](https://img.shields.io/github/stars/liyucheng09/selective_context.svg)
+- <a href='https://github.com/microsoft/LLMLingua'>LLMLingua</a></a> ![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
+- <a href='https://github.com/microsoft/LLMLingua'>LongLLMLingua</a> ![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
+- <a href='https://github.com/complementizer/rl-sentence-compression'>SCRL</a> ![Github stars](https://img.shields.io/github/stars/complementizer/rl-sentence-compression.svg)
+- <a href='https://github.com/tingofurro/keep_it_simple'>KiS</a> ![Github stars](https://img.shields.io/github/stars/tingofurro/keep_it_simple.svg)
+
 
 ### Key Features of PCToolkit
 
@@ -105,14 +114,6 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 ```
 
 > Hint: Please do remember to fill in your Huggingface Tokens and API keys for OpenAI in pctoolkit/runners.py. (You can also change the urls if you are using other APIs for OpenAI)
-
-## Relevant Repositories
-
-- <a href='https://github.com/liyucheng09/selective_context'>Selective Context</a> ![Github stars](https://img.shields.io/github/stars/liyucheng09/selective_context.svg)
-- <a href='https://github.com/microsoft/LLMLingua'>LLMLingua</a></a> ![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
-- <a href='https://github.com/microsoft/LLMLingua'>LongLLMLingua</a> ![Github stars](https://img.shields.io/github/stars/microsoft/LLMLingua.svg)
-- <a href='https://github.com/complementizer/rl-sentence-compression'>SCRL</a> ![Github stars](https://img.shields.io/github/stars/complementizer/rl-sentence-compression.svg)
-- <a href='https://github.com/tingofurro/keep_it_simple'>KiS</a> ![Github stars](https://img.shields.io/github/stars/tingofurro/keep_it_simple.svg)
 
 ## Reference
 
