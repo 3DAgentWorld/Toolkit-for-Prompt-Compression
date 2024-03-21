@@ -12,6 +12,7 @@
 
 ## Contents
 - [Introduction](#introduction)
+  	- [Key Features of PCToolkit](#key-features-of-pctoolkit)
 - [Methods supporting](#methods-supporting)
 - [How to start](#how-to-start)
 	- [Downloading models](#downloading-models)
@@ -34,6 +35,14 @@ PCToolkit contains:
 <div align=center>
 <img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/architecture.png" width="739" height="380.5">
 </div>
+
+### Key Features of PCToolkit
+
+(i) **State-of-the-art and reproducible methods.** Encompassing a wide array of mainstream compression techniques, PCToolkit offers a unified interface for various compression methods (compressors). Notably, PCToolkit incorporates a total of five distinct compressors, namely Selective Context, LLMLingua, LongLLMLingua, SCRL and KiS.
+
+(ii) **User-friendly interfaces for new compressors, datasets, and metrics.** Facilitating portability and ease of adaptation to different environments, the interfaces within PCToolkit are designed to be easily customizable. This flexibility makes PCToolkit suitable for a wide range of environments and tasks.
+
+(iii) **Modular design.** Featuring a modular structure that simplifies the transition between different methods, datasets, and metrics, PCToolkit is organized into four distinct modules: Compressor, Dataset, Metric and Runner module.
 
 ## Methods supporting
 
