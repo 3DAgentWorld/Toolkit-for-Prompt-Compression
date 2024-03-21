@@ -11,12 +11,27 @@
 # PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
 
 ## Contents
+- [Introduction](#introduction)
 - [Methods supporting](#methods-supporting)
 - [How to start](#how-to-start)
 	- [Downloading models](#downloading-models)
 - [How to use](#how-to-use)
 - [Relevant Repositories](#relevant-repositories)
 - [Reference](#reference)
+
+## Introduction
+
+Prompt compression is an innovative method for efficiently condensing input prompts while preserving essential information. To facilitate quick-start services, user-friendly interfaces, and compatibility with common datasets and metrics, we present the Prompt Compression Toolkit (PCToolkit). This toolkit is a unified plug-and-play solution for compressing prompts in Large Language Models (LLMs), featuring cutting-edge prompt compressors, diverse datasets, and metrics for comprehensive performance evaluation. PCToolkit boasts a modular design, allowing for easy integration of new datasets and metrics through portable and user-friendly interfaces. In this paper, we outline the key components and functionalities of PCToolkit.
+
+We conducted evaluations of the compressors within PCToolkit across various natural language tasks, including reconstruction, summarization, mathematical problem-solving, question answering, few-shot learning, synthetic tasks, code completion, boolean expressions, multiple choice questions, and lies recognition.
+
+PCToolkit contains:
+
+- 5 compression methods
+- 11 datasets
+- 5+ metrics
+
+![PCToolkit architecture](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/PCToolkit_architecture5.pdf)
 
 ## Methods supporting
 
