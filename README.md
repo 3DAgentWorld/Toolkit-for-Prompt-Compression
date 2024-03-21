@@ -4,8 +4,6 @@
 <img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo.png" width="400" height="105">
 </div>
 
-![logo](./imgs/logo.png)
-
 # Contents
 - [Methods supporting](#methods-supporting)
 - [How to start](#how-to-start)
