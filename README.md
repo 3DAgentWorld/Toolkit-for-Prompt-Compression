@@ -11,6 +11,7 @@
 # PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
 
 ## Contents
+- [Technical Report](#technical-report)
 - [Introduction](#introduction)
 	- [Relevant Repositories](#relevant-repositories)
   	- [Key Features of PCToolkit](#key-features-of-pctoolkit)
@@ -19,6 +20,11 @@
 	- [Downloading models](#downloading-models)
 - [How to use](#how-to-use)
 - [Reference](#reference)
+- [Citation](#citation)
+
+## Techical Report
+
+You can find more details about PCToolkit in our <a href=''>technical report</a>.
 
 ## Introduction
 
@@ -126,3 +132,11 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 4. Ghalandari, Demian Gholipour et al. “Efficient Unsupervised Sentence Compression by Fine-tuning Transformers with Reinforcement Learning.” ArXiv abs/2205.08221 (2022): n. pag.
 
 5. [Keep It Simple: Unsupervised Simplification of Multi-Paragraph Text](https://aclanthology.org/2021.acl-long.498) (Laban et al., ACL-IJCNLP 2021)
+
+## Citation
+
+PCToolkit is used in your research or applications, please cite it using the following BibTeX:
+
+```bib
+nothing here yet
+```
