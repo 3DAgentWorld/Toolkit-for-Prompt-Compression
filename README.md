@@ -10,8 +10,13 @@
 
 # PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
 
+## 🎉News
+
+## 📄Techical Report
+
+You can find more details about PCToolkit in our <a href=''>technical report</a>.
+
 ## Contents
-- [Technical Report](#:page_facing_up:technical-report)
 - [Introduction](#introduction)
 	- [Relevant Repositories](#relevant-repositories)
   	- [Key Features of PCToolkit](#key-features-of-pctoolkit)
@@ -21,10 +26,6 @@
 - [How to use](#how-to-use)
 - [Reference](#reference)
 - [Citation](#citation)
-
-## 📄Techical Report
-
-You can find more details about PCToolkit in our <a href=''>technical report</a>.
 
 ## Introduction
 
