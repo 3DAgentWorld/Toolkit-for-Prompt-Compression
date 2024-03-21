@@ -1,5 +1,12 @@
 # PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
 
+# Contents
+- [Methods supporting](#methods-supporting)
+- [How to start](#how-to-start)
+	- [Downloading models](#downloading-models)
+- [How to use](#how-to-use)
+- [Reference](#reference)
+
 ## Methods supporting
 
 Currently, TPC includes <a href='https://arxiv.org/abs/2310.06201'>Selective Context</a>, <a href='https://arxiv.org/abs/2310.05736'>LLMLingua</a>, <a href='https://arxiv.org/abs/2310.06839'>LongLLMLingua</a>, <a href='https://arxiv.org/abs/2205.08221'>SCRL</a> and <a href='https://arxiv.org/abs/2107.03444'>Keep it Simple</a>.
