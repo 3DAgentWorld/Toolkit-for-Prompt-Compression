@@ -107,8 +107,7 @@ For **prompt compression** tasks, follow `pctoolkit/compressors.py`, you can mod
 Or you can follow the code below:
 
 ```python
-from pctoolkit.compressors import 
-    PromptCompressor
+from pctoolkit.compressors import PromptCompressor
 
 compressor = PromptCompressor(type='SCCompressor', device='cuda')
 
