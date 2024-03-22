@@ -110,13 +110,11 @@ Or you can follow the code below:
 from pctoolkit.compressors import 
     PromptCompressor
 
-compressor = PromptCompressor(
-type='SCCompressor', device='cuda')
+compressor = PromptCompressor(type='SCCompressor', device='cuda')
 
 test_prompt = "test prompt"
 ratio = 0.3
-result = compressor.compressgo(
-test_prompt, ratio)
+result = compressor.compressgo(test_prompt, ratio)
 print(result)
 ```
 
