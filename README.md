@@ -104,6 +104,22 @@ You should download the models manually. Most of the models can be automatically
 
 For **prompt compression** tasks, follow `pctoolkit/compressors.py`, you can modify the compression methods as well as the parameters for them. There is an example in `pctoolkit/compressors.py`, it will be easy to modify.
 
+Or you can follow the code below:
+
+```python
+from pctoolkit.compressors import 
+    PromptCompressor
+
+compressor = PromptCompressor(
+type='SCCompressor', device='cuda')
+
+test_prompt = "test prompt"
+ratio = 0.3
+result = compressor.compressgo(
+test_prompt, ratio)
+print(result)
+```
+
 For **evaluation**, follow `pctoolkit_demo.py`. **Please note that if you want to change the metrics, modify pctoolkit/metrics.py, especially for LongBench dataset**.
 
 ```python
