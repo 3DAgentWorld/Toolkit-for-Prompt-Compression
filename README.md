@@ -149,7 +149,7 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 
 ## Citation
 
-PCToolkit is used in your research or applications, please cite it using the following BibTeX:
+If PCToolkit is used in your research or applications, please cite it using the following BibTeX:
 
 ```bib
 nothing here yet
