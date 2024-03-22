@@ -107,7 +107,7 @@ pip install -r requirements.txt
 
 ### Downloading models
 
-You should download the models manually. Most of the models can be automatically downloaded from Huggingface Hub. However, you should at least download models for `SCRL` method manually. Just follow the guide inside `/models` folder.
+Due to the file sizes, we do not expect this repository to be too large. Thus, please download the models manually. Most of the models can be automatically downloaded from Huggingface Hub. However, you should at least download models for `SCRL` method manually. Just follow the guidance inside `/models` folder.
 
 ## How to use
 
@@ -160,6 +160,6 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 
 If PCToolkit is used in your research or applications, please cite it using the following BibTeX:
 
-```bib
+```bibtex
 nothing here yet
 ```
