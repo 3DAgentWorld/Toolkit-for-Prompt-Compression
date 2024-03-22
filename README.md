@@ -10,6 +10,8 @@
 
 # PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models
 
+https://youtu.be/_KarBVRmpT0
+
 ## 🎉News
 
 ## 📄Techical Report
