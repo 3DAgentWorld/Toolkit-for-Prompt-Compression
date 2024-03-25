@@ -143,7 +143,7 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 
 ```
 
-> Hint: Please do remember to fill in your Huggingface Tokens and API keys for OpenAI in pctoolkit/runners.py. (You can also change the urls if you are using other APIs for OpenAI)
+> Hint: Please do remember to fill in your Huggingface Tokens and API keys for OpenAI in pctoolkit/runners.py. (You can also change the URLs if you are using other APIs for OpenAI)
 
 ## Reference
 
