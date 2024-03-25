@@ -1,6 +1,6 @@
 # About datasets
 
-Here you can find some detail information about each dataset.
+Here you can find some detail information about each dataset. For each dataset, there is a link connected to its original GitHub repository.
 
 ## Reference
 
