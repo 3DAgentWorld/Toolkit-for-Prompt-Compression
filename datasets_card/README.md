@@ -1,6 +1,6 @@
 # About datasets
 
-Here you can find detail information about each dataset.
+Here you can find some detail information about each dataset.
 
 ## Reference
 
