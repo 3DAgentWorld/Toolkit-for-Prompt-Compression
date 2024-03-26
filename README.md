@@ -1,9 +1,6 @@
 <div align=center>
 <img src="https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/imgs/logo_trans.png" width="600" height="150">
 
-
-[![GitHub license](https://img.shields.io/github/license/3DAgentWorld/Toolkit-for-Prompt-Compression?color=blue)](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/3DAgentWorld/Toolkit-for-Prompt-Compression)](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression)
 [![Paper](https://img.shields.io/badge/PCToolkit-Paper-maroon)](https://huggingface.co/spaces/JerryLiJinyi/Prompt-Compression-Toolbox)
 [![Demo](https://img.shields.io/badge/PCToolkit-Demo-lightsteelblue)](https://huggingface.co/spaces/JerryLiJinyi/Prompt-Compression-Toolbox)
 
