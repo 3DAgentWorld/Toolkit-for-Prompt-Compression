@@ -22,9 +22,11 @@
 
 ## 🎉News
 
+- Our paper is now available on ArXiv, please refer to <a href='https://arxiv.org/abs/2403.17411'>this url</a>. (3/27/2024)
+
 ## 📄Techical Report
 
-You can find more details about PCToolkit in our <a href=''>technical report</a>.
+You can find more details about PCToolkit in our <a href='https://arxiv.org/abs/2403.17411'>technical report</a>.
 
 ## Contents
 - [Introduction](#introduction)
@@ -162,9 +164,12 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 If PCToolkit is used in your research or applications, please cite it using the following BibTeX:
 
 ```bibtex
-@misc{2403.17411,
-Author = {Jinyi Li and Yihuai Lan and Lei Wang and Hao Wang},
-Title = {PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models},
-Year = {2024},
-Eprint = {arXiv:2403.17411},
+@misc{li2024pctoolkit,
+      title={PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models}, 
+      author={Jinyi Li and Yihuai Lan and Lei Wang and Hao Wang},
+      year={2024},
+      eprint={2403.17411},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
 ```
