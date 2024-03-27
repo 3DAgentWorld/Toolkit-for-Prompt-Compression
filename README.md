@@ -3,7 +3,7 @@
 
 ![Github stars](https://img.shields.io/github/stars/3DAgentWorld/Toolkit-for-Prompt-Compression.svg)
 [![GitHub license](https://img.shields.io/github/license/3DAgentWorld/Toolkit-for-Prompt-Compression)](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/master/LICENSE)
-[![Paper](https://img.shields.io/badge/PCToolkit-Paper-maroon)](https://huggingface.co/spaces/JerryLiJinyi/Prompt-Compression-Toolbox)
+[![Paper](https://img.shields.io/badge/PCToolkit-Paper-maroon)](https://arxiv.org/abs/2403.17411)
 [![Demo](https://img.shields.io/badge/PCToolkit-Demo-lightsteelblue)](https://huggingface.co/spaces/JerryLiJinyi/Prompt-Compression-Toolbox)
 
 
@@ -162,5 +162,9 @@ run(compressor=compressor, dataset=dataset, metrics=load_metrics, ratio=0.1)
 If PCToolkit is used in your research or applications, please cite it using the following BibTeX:
 
 ```bibtex
-nothing here yet
+@misc{2403.17411,
+Author = {Jinyi Li and Yihuai Lan and Lei Wang and Hao Wang},
+Title = {PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models},
+Year = {2024},
+Eprint = {arXiv:2403.17411},
 ```
