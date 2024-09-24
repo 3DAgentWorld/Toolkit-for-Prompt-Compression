@@ -1,7 +1,7 @@
-from SCRL_new.scrl.model import load_model
+from .SCRL_new.scrl.model import load_model
 from transformers import AutoTokenizer
 import re
-from abs_compressor import AbstractCompressor
+from .abs_compressor import AbstractCompressor
 
 
 class SCRLCompressor(AbstractCompressor):

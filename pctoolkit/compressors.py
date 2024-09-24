@@ -18,6 +18,9 @@ class PromptCompressor:
             self.compressor = LLMLinguaCompressor(device_map=device, model_name=model_dir, use_auth_token=use_auth_token, open_api_config=open_api_config, token=token)
         elif self.type == 'LongLLMLinguaCompressor':
             self.compressor = LLMLinguaCompressor(device_map=device, model_name=model_dir, use_auth_token=use_auth_token, open_api_config=open_api_config, token=token)
+        elif self.type == 'LLMLingua2Compressor':
+            self.compressor = LLMLinguaCompressor(device_map=device, model_name=model_dir, use_auth_token=use_auth_token, open_api_config=open_api_config, token=token,
+            use_llmlingua2=True)
         elif self.type == 'SCRLCompressor':
             if model_dir:
                 self.compressor = SCRLCompressor(model_dir=model_dir, device=device, tokenizer_dir=tokenizer_dir)
@@ -41,16 +44,7 @@ class PromptCompressor:
             return self.compressor.compress(original_prompt=original_prompt, ratio=ratio, max_length=max_length, num_beams=num_beams, do_sample=do_sample, num_return_sequences=num_return_sequences, target_index=target_index)
         elif self.type == 'SCRLCompressor':
             return self.compressor.compress(original_prompt=original_prompt, ratio=ratio, max_length=max_length)
-        elif self.type == 'LLMLinguaCompressor':
-            return self.compressor.compress(context=original_prompt, ratio=ratio, instruction=instruction, question=question, target_token=target_token,
-                                            iterative_size=iterative_size, force_context_ids=force_context_ids, force_context_number=force_context_number,
-                                            use_token_level_filter=use_token_level_filter, use_context_level_filter=use_context_level_filter,
-                                            use_sentence_level_filter=use_sentence_level_filter, keep_split=keep_split, keep_first_sentence=keep_first_sentence,
-                                            keep_last_sentence=keep_last_sentence, keep_sentence_number=keep_sentence_number, high_priority_bonus=high_priority_bonus,
-                                            context_budget=context_budget, token_budget_ratio=token_budget_ratio, condition_in_question=condition_in_question,
-                                            reorder_context = reorder_context, dynamic_context_compression_ratio=dynamic_context_compression_ratio, condition_compare=condition_compare,
-                                            add_instruction=add_instruction, rank_method=rank_method, concate_question=concate_question)
-        elif self.type == 'LongLLMLinguaCompressor':
+        elif self.type in ['LLMLinguaCompressor', 'LongLLMLinguaCompressor', 'LLMLingua2Compressor']:
             return self.compressor.compress(context=original_prompt, ratio=ratio, instruction=instruction, question=question, target_token=target_token,
                                             iterative_size=iterative_size, force_context_ids=force_context_ids, force_context_number=force_context_number,
                                             use_token_level_filter=use_token_level_filter, use_context_level_filter=use_context_level_filter,

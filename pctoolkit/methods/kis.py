@@ -1,6 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
-from abs_compressor import AbstractCompressor
+from .abs_compressor import AbstractCompressor
 
 
 class KiSCompressor(AbstractCompressor):

@@ -1,5 +1,5 @@
-from selective_context_source import SelectiveContext
-from abs_compressor import AbstractCompressor
+from .selective_context_source import SelectiveContext
+from .abs_compressor import AbstractCompressor
 
 
 class SCCompressor(AbstractCompressor):
