@@ -518,6 +518,85 @@ class LLMLinguaCompressor(AbstractCompressor):
             res["fn_labeled_original_prompt"] = word_label_lines
         return res
 
+    def __get_context_prob(
+        self,
+        context_list: list,
+        token_to_word="mean",
+        force_tokens: List[str] = [],
+        token_map: dict = {},
+        force_reserve_digit: bool = False,
+    ):
+        chunk_list = []
+        for chunks in context_list:
+            for c in chunks:
+                chunk_list.append(c)
+
+        dataset = TokenClfDataset(
+            chunk_list, tokenizer=self.tokenizer, max_len=self.max_seq_len
+        )
+        dataloader = DataLoader(
+            dataset, batch_size=self.max_batch_size, shuffle=False, drop_last=False
+        )
+
+        chunk_probs = []
+        chunk_words = []
+        with torch.no_grad():
+            for batch in dataloader:
+                ids = batch["ids"].to(self.device, dtype=torch.long)
+                mask = batch["mask"].to(self.device, dtype=torch.long) == 1
+
+                outputs = self.model(input_ids=ids, attention_mask=mask)
+                loss, logits = outputs.loss, outputs.logits
+                probs = F.softmax(logits, dim=-1)
+
+                for j in range(ids.shape[0]):
+                    _probs = probs[j, :, 1]
+                    _ids = ids[j]
+                    _mask = mask[j]
+
+                    active_probs = torch.masked_select(_probs, _mask)
+                    active_ids = torch.masked_select(_ids, _mask)
+
+                    tokens = self.tokenizer.convert_ids_to_tokens(
+                        active_ids.squeeze().tolist()
+                    )
+                    token_probs = [prob for prob in active_probs.cpu().numpy()]
+
+                    (
+                        words,
+                        valid_token_probs,
+                        valid_token_probs_no_force,
+                    ) = self.__merge_token_to_word(
+                        tokens,
+                        token_probs,
+                        force_tokens=force_tokens,
+                        token_map=token_map,
+                        force_reserve_digit=force_reserve_digit,
+                    )
+                    word_probs_no_force = self.__token_prob_to_word_prob(
+                        valid_token_probs_no_force, convert_mode=token_to_word
+                    )
+
+                    if "xlm-roberta-large" in self.model_name:
+                        for i in range(len(words)):
+                            words[i] = words[i].lstrip("▁")
+                    chunk_words.append(words)
+                    chunk_probs.append(word_probs_no_force)
+
+        prev_idx = 0
+        context_probs = []
+        context_words = []
+        for chunk_list in context_list:
+            n_chunk = len(chunk_list)
+            context_probs.append([])
+            context_words.append([])
+            for i in range(n_chunk):
+                context_probs[-1].extend(chunk_probs[prev_idx + i])
+                context_words[-1].extend(chunk_words[prev_idx + i])
+            prev_idx = prev_idx + n_chunk
+        context_probs = [sum(probs) / len(probs) for probs in context_probs]
+        return context_probs, context_words
+
     def __chunk_context(self, origin_text, chunk_end_tokens):
         # leave 2 token for CLS and SEP
         max_len = self.max_seq_len - 2
