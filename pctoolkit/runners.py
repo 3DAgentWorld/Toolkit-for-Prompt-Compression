@@ -10,6 +10,8 @@ import copy
 import openai
 from openai import OpenAI
 import warnings
+from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 apikeys = ["Your API keys here",
@@ -134,6 +136,10 @@ def chat_gpt(messages):
     return out
 
 
+def chat_gpt_args(messages, *args):
+    return chat_gpt(messages), args
+
+
 def restore_text(compressed_text, eval_type: str = "reconstruction"):
     global missing
     if eval_type == "reconstruction":
@@ -184,27 +190,44 @@ def restore_text(compressed_text, eval_type: str = "reconstruction"):
         return None
 
 
-def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: float = 0.5, max_index: int = 5, max_length: int = 1024, target_tokens: int = 3000):
+def restore_text_args(compressed_text, eval_type: str = "reconstruction", *args):
+    return restore_text(compressed_text, eval_type), args
+
+def restore_text_list(text_and_type: List[tuple[str]]):
+    return [restore_text(text, eval_type) for text, eval_type in text_and_type]
+
+
+def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: float = 0.5, max_index: int = 5, max_length: int = 1024, target_tokens: int = 3000, num_threads: int = 40):
+    executor = ThreadPoolExecutor(max_workers=num_threads)
+    futures = []
+
     if dataset.dataset_name in ["bbc", "sharegpt"]:
+        if max_index is None:
+            max_index = len(dataset.data)
+
         original = []
         reconstructed = []
-        for i in range(max_index):
+        for i in tqdm(range(max_index)):
             original_prompt = ""
             if dataset.dataset_name == "bbc":
                 original_prompt = dataset.data[i]["content"]
-                original.append(original_prompt)
             elif dataset.dataset_name == "arxiv":
                 original_prompt = dataset.data[i]["text"]
-                original.append(original_prompt)
             elif dataset.dataset_name == "sharegpt":
                 for x in dataset.data[i]["chat"]:
                     original_prompt += x[1]
-                original.append(original_prompt)
 
             compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=ratio, max_length=max_length)
 
-            result = restore_text(compressed_prompt["compressed_prompt"])
+            futures.append(executor.submit(restore_text_args, compressed_prompt["compressed_prompt"], 'reconstruction', original_prompt))
 
+        for future in tqdm(as_completed(futures)):
+            try:
+                result, (original_prompt,) = future.result()
+            except:
+                print('NoneType')
+                continue
+            original.append(original_prompt)
             reconstructed.append(result)
 
         for j in range(len(metrics)):
@@ -212,10 +235,12 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
             for key in score:
                 print(key, score[key])
 
-    if dataset.dataset_name == "LongBench":
+    elif dataset.dataset_name == "LongBench":
+        if max_index is None:
+            max_index = len(dataset.data)
+
         total_score = 0
-        for i in range(max_index):
-            score = 0
+        for i in tqdm(range(max_index)):
             contexts, question, answer = [dataset.data[i][key] for key in ["context", "input", "answers"]]
 
             # instruction = "Please complete the code given below."
@@ -251,24 +276,37 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
                 dynamic_context_compression_ratio=0.3,  # enable dynamic_context_compression_ratio
             )
             message = [{"role": "user", "content": compressed_prompt["compressed_prompt"]}]
-            result = chat_gpt(message)
-            if "\n" in result:
-                result = result.split("\n", 1)[0]
-            # print("result: ", result)
-            # print("true answer: ", answer)
-            for an in answer:
-                score = max(score, metrics[0](result, an))
-            total_score += score
-        print(total_score/max_index)
 
-    if dataset.dataset_name == "BBH":
+            futures.append(executor.submit(chat_gpt_args, message, answer))
+
+        answers = []
+        results = []
+        for future in tqdm(as_completed(futures)):
+            try:
+                result, (answer,) = future.result()
+            except:
+                print('NoneType')
+                continue
+            result = result.split('\n')[0]
+            answers.extend(answer)
+            results.extend([result]*len(answer))
+
+        for j in range(len(metrics)):
+            score = metrics[j](results, answers)
+            for key in score:
+                print(key, score[key])
+
+    elif dataset.dataset_name == "BBH":
+        if max_index is None:
+            max_index = len(dataset.data["examples"][0])
+
         with open(f"dataset/BBH/cot-prompts/{dataset.subdataset_name}.txt", "r") as f:
             context = f.read()
             prompt = context
 
         total_score = 0
 
-        for i in range(0, max_index):
+        for i in tqdm(range(0, max_index)):
 
             question, answer = [dataset.data["examples"][0][i][key] for key in ["input", "target"]]
 
@@ -291,9 +329,10 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
 
             message = [{"role": "user", "content": instruction + compressed_prompt["compressed_prompt"] + question}]
 
-            result = chat_gpt(message)
-            # print("result: ", result)
-            # print("true answer: ", answer)
+            futures.append(executor.submit(chat_gpt_args, message, answer))
+
+        for future in tqdm(as_completed(futures)):
+            result, (answer,) = future.result()
             if dataset.subdataset_name == "boolean_expressions":
                 if answer == result:
                     total_score += 1
@@ -302,10 +341,13 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
 
         print("Average score: ", total_score / max_index)
 
-    if dataset.dataset_name in ["gigaword", "duc2004", "bnc", "google", "broadcast"]:
+    elif dataset.dataset_name in ["gigaword", "duc2004", "bnc", "google", "broadcast"]:
+        if max_index is None:
+            max_index = len(dataset.data)
+
         original = []
         reconstructed = []
-        for i in range(max_index):
+        for i in tqdm(range(max_index)):
             original_prompt = dataset.data[i]["text"]
             target = dataset.data[i]["summaries"][0]
             original.append(target)
@@ -319,19 +361,26 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
             for key in score:
                 print(key, score[key])
 
-    if dataset.dataset_name in ["arxiv"]:
+    elif dataset.dataset_name in ["arxiv"]:
+        if max_index is None:
+            max_index = len(dataset.data)
+
         reconstructed = []
         reference_lst = []
-        for i in range(max_index):
+        for i in tqdm(range(max_index)):
             original_prompt = dataset.data[i]["text"]
-            reference = restore_text(original_prompt)
-
-            reference_lst.append(reference)
 
             compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=ratio, max_length=max_length)
 
-            result = restore_text(compressed_prompt["compressed_prompt"], eval_type="summary")
+            futures.append(executor.submit(restore_text_list, [(original_prompt, 'reconstruction'), (compressed_prompt["compressed_prompt"], 'summary')]))
 
+        for future in tqdm(as_completed(futures)):
+            try:
+                reference, result = future.result()
+            except:
+                print('NoneType')
+                continue
+            reference_lst.append(reference)
             reconstructed.append(result)
 
         for j in range(len(metrics)):
@@ -339,9 +388,42 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
             for key in score:
                 print(key, score[key])
 
-    if dataset.dataset_name in ["GSM"]:
+    elif dataset.dataset_name in ["GSM"]:
+        reconstructed = []
+        reference_lst = []
+        for i in tqdm(range(max_index)):
+            qn = dataset.data[i]["question"]
+            an = dataset.data[i]["answer"]
+            extracted_text = ""
+            if "#### " in an:
+                answer_index = an.index("#### ")
+                extracted_text = an[answer_index:-len("<|endoftext|>")].strip()
+            original_prompt = qn + extracted_text
+
+            compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=ratio, max_length=max_length)
+
+            futures.append(executor.submit(restore_text_list, [(original_prompt, 'reconstruction'), (compressed_prompt["compressed_prompt"], 'reconstruction')]))
+
+        for future in tqdm(as_completed(futures)):
+            try:
+                reference, result = future.result()
+            except:
+                print('NoneType')
+                continue
+            reference_lst.append(reference)
+            reconstructed.append(result)
+
+        for j in range(len(metrics)):
+            score = metrics[j](reference_lst, reconstructed)
+            for key in score:
+                print(key, score[key])
+
+    elif dataset.dataset_name in ["GSM"]:
+        if max_index is None:
+            max_index = len(dataset.data)
+
         score = 0
-        for i in range(max_index):
+        for i in tqdm(range(max_index)):
             qn = dataset.data[i]["question"]
             an = dataset.data[i]["answer"]
             extracted_text = ""
@@ -353,8 +435,12 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
             compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=ratio,
                                                       max_length=max_length)
 
-            result = restore_text(compressed_prompt["compressed_prompt"], eval_type="maths")
+            futures.append(executor.submit(restore_text_args, compressed_prompt["compressed_prompt"], 'maths', extracted_text))
 
+        for future in tqdm(as_completed(futures)):
+            result, (extracted_text,) = future.result()
             if extracted_text == result:
                 score += 1
         print("Average score: ", score/max_index)
+
+    executor.shutdown(wait=True)
