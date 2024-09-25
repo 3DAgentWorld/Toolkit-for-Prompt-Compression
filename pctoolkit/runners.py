@@ -1,3 +1,4 @@
+import base64
 from .compressors import PromptCompressor
 import sys
 sys.path.append('..')
@@ -79,13 +80,12 @@ maths_demos = [
     }
 ]
 
-def chat_gpt(messages):
+def chat_gpt(messages, model='gpt-3.5-turbo-16k'):
     flag = False
     max_retry = 10
     retry = 0
     out = "Nothing to say."
     api_key = apikeys[0]
-    model = 'gpt-3.5-turbo-16k'
     temperature = 0
     base_url = "https://api.xi-ai.cn/v1"
     client = OpenAI(api_key=api_key, base_url=base_url)
@@ -195,6 +195,22 @@ def restore_text_args(compressed_text, eval_type: str = "reconstruction", *args)
 
 def restore_text_list(text_and_type: List[tuple[str]]):
     return [restore_text(text, eval_type) for text, eval_type in text_and_type]
+
+
+def chat_vision(question: str, image_path: str):
+    with open(image_path, 'rb') as image_file:
+        image_content = base64.b64encode(image_file.read()).decode('utf-8')
+
+    content=[
+        {'type': 'text', 'text': question},
+        {'type': 'image_url', 'image_url': {'url': f'data:image/jpeg;base64,{image_content}'}}
+    ]
+
+    messages = [{'role': 'user', 'content': content}]
+    return chat_gpt(messages, 'gpt-4o-mini')
+
+def chat_vision_args(question: str, image_path: str, *args):
+    return chat_vision(question, image_path), args
 
 
 def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: float = 0.5, max_index: int = 5, max_length: int = 1024, target_tokens: int = 3000, num_threads: int = 40):
@@ -388,35 +404,35 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
             for key in score:
                 print(key, score[key])
 
-    elif dataset.dataset_name in ["GSM"]:
-        reconstructed = []
-        reference_lst = []
-        for i in tqdm(range(max_index)):
-            qn = dataset.data[i]["question"]
-            an = dataset.data[i]["answer"]
-            extracted_text = ""
-            if "#### " in an:
-                answer_index = an.index("#### ")
-                extracted_text = an[answer_index:-len("<|endoftext|>")].strip()
-            original_prompt = qn + extracted_text
+    # elif dataset.dataset_name in ["GSM"]:
+    #     reconstructed = []
+    #     reference_lst = []
+    #     for i in tqdm(range(max_index)):
+    #         qn = dataset.data[i]["question"]
+    #         an = dataset.data[i]["answer"]
+    #         extracted_text = ""
+    #         if "#### " in an:
+    #             answer_index = an.index("#### ")
+    #             extracted_text = an[answer_index:-len("<|endoftext|>")].strip()
+    #         original_prompt = qn + extracted_text
 
-            compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=ratio, max_length=max_length)
+    #         compressed_prompt = compressor.compressgo(original_prompt=original_prompt, ratio=ratio, max_length=max_length)
 
-            futures.append(executor.submit(restore_text_list, [(original_prompt, 'reconstruction'), (compressed_prompt["compressed_prompt"], 'reconstruction')]))
+    #         futures.append(executor.submit(restore_text_list, [(original_prompt, 'reconstruction'), (compressed_prompt["compressed_prompt"], 'reconstruction')]))
 
-        for future in tqdm(as_completed(futures)):
-            try:
-                reference, result = future.result()
-            except:
-                print('NoneType')
-                continue
-            reference_lst.append(reference)
-            reconstructed.append(result)
+    #     for future in tqdm(as_completed(futures)):
+    #         try:
+    #             reference, result = future.result()
+    #         except:
+    #             print('NoneType')
+    #             continue
+    #         reference_lst.append(reference)
+    #         reconstructed.append(result)
 
-        for j in range(len(metrics)):
-            score = metrics[j](reference_lst, reconstructed)
-            for key in score:
-                print(key, score[key])
+    #     for j in range(len(metrics)):
+    #         score = metrics[j](reference_lst, reconstructed)
+    #         for key in score:
+    #             print(key, score[key])
 
     elif dataset.dataset_name in ["GSM"]:
         if max_index is None:
@@ -442,5 +458,61 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
             if extracted_text == result:
                 score += 1
         print("Average score: ", score/max_index)
+
+    elif dataset.dataset_name in ["iconqa"]:
+        if max_index is None:
+            max_index = len(dataset.data)
+
+        score = 0
+        for i in tqdm(range(max_index)):
+            image_path = dataset.data[i]['image']
+            question = dataset.data[i]['question']
+            choices = dataset.data[i]['choices']
+            answer = dataset.data[i]['answer']
+            choices = [f'{chr(65 + i)}. {s}' for i, s in enumerate(choices)]
+            compressed_prompt = compressor.compressgo(original_prompt=question, ratio=ratio, max_length=max_length)
+            question = compressed_prompt['compressed_prompt'] + '\nChoices:\n' + '\n'.join(choices)
+
+            futures.append(executor.submit(chat_vision_args, question, image_path, answer, len(choices)))
+
+        for future in tqdm(as_completed(futures)):
+            result, (answer, n_choices) = future.result()
+            letter_list = [chr(65 + i) for i in range(n_choices)]
+            for c in result:
+                if c in letter_list and letter_list.index(c) == answer:
+                    score += 1
+                    break
+
+        print("Average score: ", score/max_index)
+
+    elif dataset.dataset_name in ["okvqa"]:
+        if max_index is None:
+            max_index = len(dataset.data)
+
+        score = 0
+        for i in tqdm(range(max_index)):
+            image_path = dataset.data[i]['image']
+            question = dataset.data[i]['question']
+            answer = dataset.data[i]['answer']
+            compressed_prompt = compressor.compressgo(original_prompt=question, ratio=ratio, max_length=max_length)
+
+            futures.append(executor.submit(chat_vision_args, compressed_prompt['compressed_prompt'], image_path, answer))
+
+        answers = []
+        results = []
+        for future in tqdm(as_completed(futures)):
+            try:
+                result, (answer,) = future.result()
+            except:
+                print('NoneType')
+                continue
+            result = result.split('\n')[0]
+            answers.extend(answer)
+            results.extend([result]*len(answer))
+
+        for j in range(len(metrics)):
+            score = metrics[j](results, answers)
+            for key in score:
+                print(key, score[key])
 
     executor.shutdown(wait=True)

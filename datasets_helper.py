@@ -42,6 +42,12 @@ class Dataset:
         elif dataset_name == "google":
             dataset = load_dataset("json", data_files={'test': 'dataset/SCRL_datasets/google.jsonl'}, split="test")
             return dataset
+        elif dataset_name == "iconqa":
+            dataset = load_dataset("json", data_files={'test': 'dataset/IconQA/choose_txt_test.jsonl'}, split="test")
+            return dataset
+        elif dataset_name == "okvqa":
+            dataset = load_dataset("json", data_files={'test': 'dataset/OKVQA/okvqa_val.jsonl'}, split="test")
+            return dataset
         else:
             print("Unknown dataset")
             return None
