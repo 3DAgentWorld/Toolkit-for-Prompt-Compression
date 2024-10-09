@@ -23,9 +23,7 @@ class SCRLCompressor(AbstractCompressor):
             # print(sources)
             # print(summaries)
 
-            compressed_prompt = ""
-            for s in summaries:
-                compressed_prompt += s
+            compressed_prompt = ''.join(summaries)
 
             compressed_tokens = len(self.gpt_tokenizer.encode(compressed_prompt))
 
