@@ -16,7 +16,7 @@ class SCRLCompressor(AbstractCompressor):
         original_tokens = len(self.gpt_tokenizer.encode(original_prompt))
 
         # sources = [original_prompt.strip()]
-        sources = re.findall(r'.{%d}' % max_length, original_prompt.strip())
+        sources = re.findall(r'[\S\s]{0,%d}' % max_length, original_prompt.strip())
         # print(sources)
         if sources:
             summaries = self.model.predict(sources, self.tokenizer, self.device)
