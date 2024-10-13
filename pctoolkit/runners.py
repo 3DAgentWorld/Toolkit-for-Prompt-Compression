@@ -498,21 +498,18 @@ def run(compressor: PromptCompressor, dataset: Dataset, metrics: List, ratio: fl
 
             futures.append(executor.submit(chat_vision_args, compressed_prompt['compressed_prompt'], image_path, answer))
 
-        answers = []
-        results = []
+        score = 0
         for future in tqdm(as_completed(futures)):
             try:
                 result, (answer,) = future.result()
             except:
                 print('NoneType')
                 continue
-            result = result.split('\n')[0]
-            answers.extend(answer)
-            results.extend([result]*len(answer))
-
-        for j in range(len(metrics)):
-            score = metrics[j](results, answers)
-            for key in score:
-                print(key, score[key])
+            for a in answer:
+                if a.lower() in result.lower():
+                    score += 1
+                    break
+        
+        print("Average score: ", score/max_index)
 
     executor.shutdown(wait=True)
