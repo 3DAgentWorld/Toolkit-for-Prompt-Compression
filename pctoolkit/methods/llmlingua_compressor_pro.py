@@ -189,6 +189,7 @@ class LLMLinguaCompressor(AbstractCompressor):
         rank_method: str = "llmlingua",
         concate_question: bool = True,
     ):
+        ratio = 1 - ratio
         if self.use_llmlingua2:
             return self.compress_prompt_llmlingua2(
                 context,
