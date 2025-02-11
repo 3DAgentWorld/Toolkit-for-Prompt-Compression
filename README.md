@@ -4,7 +4,7 @@
 ![Github stars](https://img.shields.io/github/stars/3DAgentWorld/Toolkit-for-Prompt-Compression.svg)
 [![GitHub license](https://img.shields.io/github/license/3DAgentWorld/Toolkit-for-Prompt-Compression)](https://github.com/3DAgentWorld/Toolkit-for-Prompt-Compression/blob/master/LICENSE)
 [![Paper](https://img.shields.io/badge/PCToolkit-Paper-maroon)](https://arxiv.org/abs/2403.17411)
-[![Demo](https://img.shields.io/badge/PCToolkit-Demo-lightsteelblue)](https://huggingface.co/spaces/JerryLiJinyi/Prompt-Compression-Toolbox)
+[![Demo](https://img.shields.io/badge/PCToolkit-Demo-lightsteelblue)](https://huggingface.co/spaces/CjangCjengh/Prompt-Compression-Toolbox)
 
 
 
