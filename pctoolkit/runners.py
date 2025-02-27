@@ -30,7 +30,7 @@ reconstruction_demos = [
     },
     {
         "role": "user",
-        "content": """Your answer should start with "Answer: ". Recover the compressed context: Josh decides try flipping a house He buys a house for then puts in in repairs This increased the value the house by 150% How much profit did he #### 70000"""
+        "content": """Your answer should start with "Answer: ". Recover the compressed context: Josh decides try flipping a house He buys a house for then puts in repairs This increased the value the house by 150% How much profit did he #### 70000"""
     },
     {
         "role": "assistant",
